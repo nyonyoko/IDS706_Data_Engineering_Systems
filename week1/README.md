@@ -128,6 +128,88 @@ week2/
 
 ---
 
+## Python code — quick usage examples
+
+This week includes two simple functions in `hello.py`:
+
+* `say_hello(name: str) -> str`
+* `add(a: int, b: int) -> int`
+
+### 1) Use in a Python REPL
+
+```bash
+cd week1
+python
+```
+
+```py
+from hello import say_hello, add
+
+say_hello("Leo")
+# 'Hello, Leo, welcome to Data Engineering Systems (IDS 706)!'
+
+add(1, 2)
+# 3
+```
+
+### 2) One-liner from your shell
+
+```bash
+python -c "from hello import say_hello, add; print(say_hello('Leo')); print(add(1,2))"
+```
+
+Expected output:
+
+```
+Hello, Leo, welcome to Data Engineering Systems (IDS 706)!
+3
+```
+
+### 3) Run tests (with coverage) locally
+
+```bash
+cd week1
+make test
+```
+
+* Uses `pytest` to run `test_hello.py`.
+* Saves a timestamped log to `.logs/`, e.g. `week1/.logs/pytest_2025-09-02_21-17-03.log`.
+
+### 4) Linting & formatting (optional but recommended)
+
+```bash
+cd week1
+make format       # auto-format with black
+make format-check # check formatting without changing files
+make lint         # flake8 (PEP8 checks, line length, etc.)
+```
+
+If `flake8` flags a long line (e.g., `E501`), shorten the string or split it across lines.
+
+### 5) Import from another module
+
+If you create additional files (e.g., `app.py`) in `week1/`, you can reuse the functions:
+
+```py
+# app.py
+from hello import say_hello, add
+
+def main():
+    print(say_hello("World"))
+    print(add(10, 32))
+
+if __name__ == "__main__":
+    main()
+```
+
+Run it:
+
+```bash
+python app.py
+```
+
+---
+
 ## Troubleshooting
 
 * **`flake8` / `pytest` not found**
@@ -147,3 +229,4 @@ week2/
 ## License
 
 Educational template for IDS 706 coursework.
+
