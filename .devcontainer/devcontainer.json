@@ -22,7 +22,7 @@
 	
 	//"containerEnv": { "WEEK_DIR": "week1" },
 	
-	"postCreateCommand": "bash -lc 'make test-changed || true'",
+	"postCreateCommand": "bash -lc 'make all-changed || true'",
 	"postStartCommand":  "bash -lc 'make test-changed || true'",
 	"customizations": {
 	  "vscode": {

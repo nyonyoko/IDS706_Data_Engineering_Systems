@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
-.PHONY: help install install-week format format-check lint test test-week test-changed clean all all-week
+.PHONY: help install install-week format format-check lint test test-week test-changed clean all all-week all-changed
 
 PY  := python
 PIP := $(PY) -m pip
@@ -23,6 +23,7 @@ help:
 	@echo "  test              Run pytest in repo root (if any) and save log"
 	@echo "  test-week         Run tests inside one week dir: make test-week WEEK=week1"
 	@echo "  test-changed      Run tests only for changed week*/ dirs since BASE"
+	@echo "  all-changed       install + format-check + lint + test for changed week*/ (fallback: all)"
 	@echo "  clean             Remove caches and logs"
 	@echo "  all               install + format + lint + test"
 	@echo "  all-week          install + format + lint + test (inside one week): make all-week WEEK=week1"
@@ -76,6 +77,25 @@ test-changed:
 			( cd $$w && $(MAKE) test ) || exit $$?; \
 		done; \
 	fi
+
+# Run full flow for changed weeks; fallback to all week*/ on first run
+all-changed:
+	@set -e; \
+	if [ -z "$(CHANGED_WEEKS)" ]; then \
+		mapfile -t weeks < <(find . -maxdepth 1 -type d -name 'week[0-9]*' -printf '%f\n' | sort); \
+		echo "No changed week*/ directories since $(BASE); running all: $${weeks[*]}"; \
+	else \
+		weeks=($(CHANGED_WEEKS)); \
+		echo "Changed weeks: $${weeks[*]}"; \
+	fi; \
+	for w in "$${weeks[@]}"; do \
+		echo "===> Setting up $$w"; \
+		$(MAKE) -C $$w install || exit $$?; \
+		$(MAKE) -C $$w format-check || true; \
+		$(MAKE) -C $$w lint || true; \
+		echo "===> Testing $$w"; \
+		$(MAKE) -C $$w test || exit $$?; \
+	done
 
 clean:
 	rm -rf __pycache__ .pytest_cache .coverage .mypy_cache .ruff_cache $(LOG_DIR)
