@@ -1,22 +1,65 @@
-name: Python Template for IDS706
+name: IDS706 CI (changed weeks)
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  discover_changed:
     runs-on: ubuntu-latest
-
+    outputs:
+      dirs: ${{ steps.find.outputs.dirs }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r week1/requirements.txt
-    - name: Lint with flake8
-      run: flake8 week1/hello.py
-    - name: Run tests
-      run: pytest --cov=hello
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: find
+        shell: bash
+        run: |
+          # Figure out the diff range
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            base="${{ github.event.pull_request.base.sha }}"
+            head="${{ github.sha }}"
+          else
+            base="${{ github.event.before }}"
+            head="${{ github.sha }}"
+          fi
+
+          # Collect changed top-level week dirs
+          mapfile -t weeks < <(git diff --name-only "$base" "$head" \
+            | awk -F/ '/^week[0-9]+\/.*/ {print $1}' \
+            | sort -u)
+
+          # Fallback: if none detected, test all week* dirs
+          if [[ ${#weeks[@]} -eq 0 ]]; then
+            mapfile -t weeks < <(find . -maxdepth 1 -type d -name 'week*' -printf '%f\n' | sort)
+          fi
+
+          # Emit JSON array for matrix
+          printf -v json '%s\n' "$(printf '%s\n' "${weeks[@]}" | jq -R -s -c 'split("\n")[:-1]')"
+          echo "dirs=$json" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: discover_changed
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        subdir: ${{ fromJSON(needs.discover_changed.outputs.dirs) }}
+    defaults:
+      run:
+        working-directory: ./${{ matrix.subdir }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint
+        run: flake8 .
+      - name: Format check
+        run: black --check .
+      - name: Tests
+        run: pytest -q --cov=hello --cov-report=term-missing

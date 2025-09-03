@@ -1,9 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python 3",
+	"name": "IDS706",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm"
+	"image": "mcr.microsoft.com/devcontainers/python:3.11",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -19,4 +19,19 @@
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+	
+	//"containerEnv": { "WEEK_DIR": "week1" },
+	
+	"postCreateCommand": "bash -lc 'make test-changed || true'",
+	"postStartCommand":  "bash -lc 'make test-changed || true'",
+	"customizations": {
+	  "vscode": {
+		"extensions": [
+		  "ms-python.python",
+		  "ms-python.vscode-pylance",
+		  "ms-azuretools.vscode-docker",
+		  "ms-toolsai.jupyter"
+		]
+	  }
+	}
 }
