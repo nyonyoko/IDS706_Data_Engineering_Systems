@@ -21,9 +21,11 @@
 	// "remoteUser": "root"
 	
 	//"containerEnv": { "WEEK_DIR": "week1" },
-	
-	"postCreateCommand": "bash -lc 'make all-changed || true'",
-	"postStartCommand":  "bash -lc 'make test-changed || true'",
+	"features": {
+	  "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+	"postCreateCommand": "bash -lc 'make all-changed docker-build-changed || true'",
+  	"postStartCommand":  "bash -lc 'make test-changed docker-run-changed || true'",
 	"customizations": {
 	  "vscode": {
 		"extensions": [

@@ -101,3 +101,45 @@ clean:
 	rm -rf __pycache__ .pytest_cache .coverage .mypy_cache .ruff_cache $(LOG_DIR)
 
 all: install format lint test
+
+.PHONY: docker-build-week docker-run-week docker-build-changed docker-run-changed docker-changed
+
+docker-build-week:
+	@[ -n "$(WEEK)" ] || (echo "Set WEEK=weekN"; exit 2)
+	[ -f $(WEEK)/Dockerfile ] || (echo "No Dockerfile in $(WEEK)"; exit 0)
+	docker build -t $(WEEK)-image -f $(WEEK)/Dockerfile .
+
+docker-run-week:
+	@[ -n "$(WEEK)" ] || (echo "Set WEEK=weekN"; exit 2)
+	docker run --rm $(WEEK)-image
+
+DOCKER := $(shell command -v docker 2>/dev/null)
+
+docker-build-changed:
+	@if [ -z "$(DOCKER)" ]; then echo "docker not available; skipping"; exit 0; fi
+	@set -e; \
+	weeks="$(CHANGED_WEEKS)"; \
+	if [ -z "$$weeks" ]; then weeks="$$(find . -maxdepth 1 -type d -name 'week[0-9]*' -printf '%f\n' | sort)"; fi; \
+	for w in $$weeks; do \
+	  if [ -f "$$w/Dockerfile" ]; then \
+	    echo "===> Building $$w"; docker build -t $$w-image -f $$w/Dockerfile .; \
+	  else \
+	    echo "===> Skipping $$w (no Dockerfile)"; \
+	  fi; \
+	done
+
+docker-run-changed:
+	@if [ -z "$(DOCKER)" ]; then echo "docker not available; skipping"; exit 0; fi
+	@set -e; \
+	weeks="$(CHANGED_WEEKS)"; \
+	if [ -z "$$weeks" ]; then weeks="$$(find . -maxdepth 1 -type d -name 'week[0-9]*' -printf '%f\n' | sort)"; fi; \
+	for w in $$weeks; do \
+	  if docker image inspect $$w-image >/dev/null 2>&1; then \
+	    echo "===> Running $$w-image"; docker run --rm $$w-image || echo "Docker run failed for $$w-image (skipping)"; \
+	  else \
+	    echo "===> Skip $$w (image not built)"; \
+	  fi; \
+	done; true
+
+
+docker-changed: docker-build-changed docker-run-changed

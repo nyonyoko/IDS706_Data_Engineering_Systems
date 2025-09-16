@@ -67,3 +67,14 @@ jobs:
 
       - name: Tests (Makefile; skips if none)
         run: make test
+        
+      # Build & run the week image if Dockerfile exists ---
+      - name: Build Docker image (if Dockerfile)
+        if: hashFiles(format('{0}/Dockerfile', matrix.subdir)) != ''
+        working-directory: .
+        run: |
+          docker build -t ${{ matrix.subdir }}-image \
+            -f ${{ matrix.subdir }}/Dockerfile .
+      - name: Run Docker image tests (if Dockerfile)
+        if: hashFiles(format('{0}/Dockerfile', matrix.subdir)) != ''
+        run: docker run --rm ${{ matrix.subdir }}-image
