@@ -1,0 +1,14 @@
+........                                                                 [100%]
+
+---------- coverage: platform linux, python 3.11.13-final-0 ----------
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+analysis/__init__.py        5      0   100%
+analysis/io_utils.py       11      1    91%   15
+analysis/ml.py             18      0   100%
+analysis/transform.py      44     16    64%   19, 24, 26-31, 38, 40, 44, 48, 51-54, 57, 66
+analysis/version.py         1      0   100%
+-----------------------------------------------------
+TOTAL                      79     17    78%
+
+8 passed in 7.07s
