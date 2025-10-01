@@ -79,21 +79,19 @@ docker run --rm week3-image
 
 ## Screenshots to include
 
-1. **Refactor diff (before/after rename)**
-
-   _GitHub → Commits → select commit → “Browse files” → pick file → “View changes”_
-
-   ```markdown
-   ![Refactor diff](assets/refactor_diff.png)
-   ```
-
-2. **CI success run**
+1. **CI success run**
 
    _GitHub → Actions → select successful run → screenshot summary_
 
-   ```markdown
    ![CI run success](assets/ci_success.png)
-   ```
+
+2. **Commit diff (before/after rename)**
+
+   _GitHub → Commits → select commit → “Browse files” → pick file → “View changes”_
+
+   ![Commit diff1](assets/commit_diff1.png)
+
+   ![Commit diff2](assets/commit_diff2.png)
 
 ---
 
