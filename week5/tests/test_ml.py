@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
-from analysis.ml import build_preprocessor, train_logreg, evaluate_accuracy
+from analysis.ml import preprocessor, train_logreg, evaluate_accuracy
 
 
-def test_build_preprocessor_and_fit():
+def test_preprocessor_and_fit():
     X = pd.DataFrame({"f1": [1.0, 2.0, None, 4.0], "f2": [10.0, 9.0, 8.0, None]})
-    pre = build_preprocessor(["f1", "f2"])
+    pre = preprocessor(["f1", "f2"])
     Xt = pre.fit_transform(X)
     # imputed + scaled numeric, so 2 columns remain
     assert Xt.shape == (4, 2)

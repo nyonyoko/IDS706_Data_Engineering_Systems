@@ -8,7 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score
 
 
-def build_preprocessor(numeric_features: list[str]):
+def preprocessor(numeric_features: list[str]):
     """Impute missing values and scale numeric columns."""
     transformer = ColumnTransformer(
         transformers=[

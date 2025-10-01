@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 from analysis.io_utils import load_csv
 from analysis.transform import filter_rows, groupby_agg
-from analysis.ml import build_preprocessor, train_logreg, evaluate_accuracy
+from analysis.ml import preprocessor, train_logreg, evaluate_accuracy
 
 
 def test_end_to_end(tmp_path: Path):
@@ -24,7 +24,7 @@ def test_end_to_end(tmp_path: Path):
     # Prepare ML data from original (simple demo)
     X = df_f[["x"]]
     y = df_f["y"]
-    pre = build_preprocessor(["x"])
+    pre = preprocessor(["x"])
     Xp = pre.fit_transform(X)
     assert Xp.shape[0] == len(X)
 
