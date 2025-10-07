@@ -1,11 +1,11 @@
 install:
-	@echo "Nothing to install for in-class exercise"
+	@echo "Nothing to install for week 6"
 
 format-check:
-	@echo "No format check needed"
+	@echo "No format check needed for week 6"
 
 lint:
-	@echo "No linting needed"
+	@echo "No linting needed for week 6"
 
 test:
-	@echo "No tests to run"
+	@echo "No tests to run for week 6"
