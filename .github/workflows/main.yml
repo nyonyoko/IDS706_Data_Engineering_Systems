@@ -65,6 +65,16 @@ jobs:
           cache: "pip"
           cache-dependency-path: ${{ format('{0}/requirements*.txt', matrix.subdir) }}
 
+      # Optional: pip cache only if this week has requirements
+      - name: Cache pip (if this week has requirements)
+        if: hashFiles(format('{0}/requirements*.txt', matrix.subdir)) != ''
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles(format('{0}/requirements*.txt', matrix.subdir)) }}
+          restore-keys: ${{ runner.os }}-pip-
+          if-no-files-found: ignore # <-- prevents the post step error
+
       # Use the per-week Makefile. It installs deps conditionally and
       # skips tests cleanly if none exist.
       - name: Install (Makefile)
