@@ -1,3 +1,5 @@
+[![Python Template for IDS706](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml/badge.svg)](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml)
+
 # IDS 706 – Week 6: Introduction to Databases
 
 This assignment demonstrates how to perform key SQL operations (insertion, selection, updating, and deletion) on a **SQLite** database containing global university rankings.

@@ -1,0 +1,8 @@
+{"timestamp":"2025-11-04T23:05:58.975338Z","level":"info","event":"DAG bundles loaded: dags-folder","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":179}
+{"timestamp":"2025-11-04T23:05:58.979889Z","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/demo.py","logger":"airflow.models.dagbag.DagBag","filename":"dagbag.py","lineno":593}
+{"timestamp":"2025-11-04T23:05:59.546095Z","level":"info","event":"Removed file: /opt/airflow/data/merged_data.csv","logger":"task.stdout"}
+{"timestamp":"2025-11-04T23:05:59.546509Z","level":"info","event":"Removed file: /opt/airflow/data/companies.csv","logger":"task.stdout"}
+{"timestamp":"2025-11-04T23:05:59.546798Z","level":"info","event":"Removed file: /opt/airflow/data/persons.csv","logger":"task.stdout"}
+{"timestamp":"2025-11-04T23:05:59.548148Z","level":"info","event":"Removed directory: /opt/airflow/data/plots","logger":"task.stdout"}
+{"timestamp":"2025-11-04T23:05:59.549130Z","level":"info","event":"Clean process completed!","logger":"task.stdout"}
+{"timestamp":"2025-11-04T23:05:59.548317Z","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator","filename":"python.py","lineno":218}

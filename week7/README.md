@@ -1,3 +1,5 @@
+[![Python Template for IDS706](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml/badge.svg)](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml)
+
 # IDS 706 – Week 7: Build Your Personal SQL Guidebook
 
 This assignment demonstrates advanced SQL queries on a **PostgreSQL** database containing a few tables about athletes and their performances in Olympic games. All commands were executed using the PostgreSQL command-line interface after connecting to the database.

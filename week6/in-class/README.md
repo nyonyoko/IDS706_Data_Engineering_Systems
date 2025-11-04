@@ -1,3 +1,5 @@
+[![Python Template for IDS706](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml/badge.svg)](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml)
+
 # Week 6 – In-Class PostgreSQL Exercise
 
 This mini in-class project demonstrates how to spin up a **PostgreSQL database inside a VS Code Dev Container with Docker**, auto-seed it with sample restaurant data, and explore the database using both the **psql CLI** and the **VS Code PostgreSQL Explorer** extension.  
