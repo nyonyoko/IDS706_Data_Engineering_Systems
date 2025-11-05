@@ -1,14 +1,13 @@
 [![Python Template for IDS706](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml/badge.svg)](https://github.com/nyonyoko/IDS706_Data_Engineering_Systems/actions/workflows/main.yml)
 
-# Airflow Data Pipeline — Week 10 Assignment
+# IDS 706 – Week 10: Airflow Data Pipeline
 
-## 🧩 Overview
-This project implements an **Apache Airflow pipeline** that ingests, transforms, and loads synthetic data into a PostgreSQL database, followed by an analysis and visualization step.  
+This assignment demonstrates an **Apache Airflow pipeline** that ingests, transforms, and loads synthetic data into a PostgreSQL database, followed by an analysis and visualization step.  
 The workflow demonstrates the logic of modern data pipelines — from **data ingestion** to **transformation**, **database loading**, and **automated analysis** — all orchestrated by Airflow.
 
 ---
 
-## 🚀 Pipeline Structure
+## Pipeline Structure
 
 ### 1. **Environment Setup**
 The environment uses a full Airflow stack deployed via `docker-compose` with:
@@ -18,11 +17,12 @@ The environment uses a full Airflow stack deployed via `docker-compose` with:
 - Custom-built Airflow image from `.devcontainer/.Dockerfile` with required dependencies.
 
 Key dependencies:
-```text
+
+```
 Faker==37.12.0
 matplotlib
 apache-airflow-providers-postgres
-
+```
 
 ---
 
@@ -30,13 +30,13 @@ apache-airflow-providers-postgres
 
 | Step | Task                | Description                                                                                            |
 | ---- | ------------------- | ------------------------------------------------------------------------------------------------------ |
-| 1️⃣  | `fetch_persons()`   | Generates a synthetic dataset of 100 people using the **Faker** library and saves it as `persons.csv`. |
-| 2️⃣  | `fetch_companies()` | Generates a second dataset of 100 companies and saves it as `companies.csv`.                           |
-| 3️⃣  | `merge_csvs()`      | Merges both datasets by index, combining person and company info into `merged_data.csv`.               |
-| 4️⃣  | `load_csv_to_pg()`  | Loads the merged CSV into **PostgreSQL** under schema `week8_demo.employees`.                          |
-| 5️⃣  | `analyze_from_pg()` | Runs a SQL query to extract the **top 10 company email domains** by frequency.                         |
-| 6️⃣  | `make_plot()`       | Visualizes the result using **Matplotlib** and saves it to `/opt/airflow/data/plots/top_domains.png`.  |
-| 7️⃣  | `clear_folder()`    | Cleans up all temporary files but **keeps the plots directory**.                                       |
+| 1  | `fetch_persons()`   | Generates a synthetic dataset of 100 people using the **Faker** library and saves it as `persons.csv`. |
+| 2  | `fetch_companies()` | Generates a second dataset of 100 companies and saves it as `companies.csv`.                           |
+| 3  | `merge_csvs()`      | Merges both datasets by index, combining person and company info into `merged_data.csv`.               |
+| 4  | `load_csv_to_pg()`  | Loads the merged CSV into **PostgreSQL** under schema `week8_demo.employees`.                          |
+| 5  | `analyze_from_pg()` | Runs a SQL query to extract the **top 10 company email domains** by frequency.                         |
+| 6  | `make_plot()`       | Visualizes the result using **Matplotlib** and saves it to `/opt/airflow/data/plots/top_domains.png`.  |
+| 7  | `clear_folder()`    | Cleans up all temporary files but **keeps the plots directory**.                                       |
 
 ---
 
@@ -56,19 +56,17 @@ graph TD
 
 ---
 
-## 📊 Results
+## Results
 
-### ✅ Successful Pipeline Execution
+### Successful Pipeline Execution
 
-*Insert screenshot of successful DAG run below.*
-
-📸 **Pipeline Run Screenshot**
+**Pipeline Run Screenshot**
 
 > ![Pipeline Run](assets/screenshot.png)
 
 ---
 
-### 📈 Visualization Output
+### Visualization Output
 
 After execution, the visualization is saved at:
 
@@ -76,14 +74,13 @@ After execution, the visualization is saved at:
 data/plots/top_domains.png
 ```
 
-📊 **Top Company Email Domains**
+**Top Company Email Domains**
 
-> *Insert your plot here*
 > ![Top Domains Plot](data/plots/top_domains.png)
 
 ---
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```
 week10/
@@ -108,7 +105,7 @@ week10/
 
 ---
 
-## ⚙️ How to Run
+## How to Run
 
 1. **Start Airflow**
 
@@ -127,14 +124,3 @@ week10/
 
    * Check database table: `week8_demo.employees`
    * Find plot in: `data/plots/top_domains.png`
-
----
-
-## 🧠 Key Takeaways
-
-* Demonstrates **end-to-end orchestration** using Airflow.
-* Showcases **parallel task execution** via CeleryExecutor.
-* Integrates **PostgreSQL** for data persistence.
-* Automates **ETL + analytics + visualization** in one pipeline.
-* Implements **cleanup logic** while preserving analytical outputs.
-
